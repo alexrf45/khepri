@@ -1,24 +1,21 @@
-variable "environment" {
+variable "env" {
   description = "operating environment of cluster"
   type        = string
   validation {
     condition = anytrue([
-      var.environment == "dev",
-      var.environment == "staging",
-      var.environment == "production",
-      var.environment == "testing",
-      var.environment == "sandbox",
+      var.env == "test",
+      var.env == "dev",
+      var.env == "prod",
     ])
-    error_message = "Please use one of the approved environement names: dev, staging, production, testing, sandbox"
+    error_message = "Please use one of the approved environement names: test, dev, prod "
   }
 }
 
-variable "pve_config" {
+variable "pve_hosts" {
   description = "Proxmox VE configuration options"
   type = object({
     hosts         = list(string)
-    pve_endpoint  = string
-    igpu          = optional(bool, true)
+    endpoint      = string
     iso_datastore = string
     gateway       = string
     password      = string
@@ -75,6 +72,7 @@ variable "dns_servers" {
 variable "cilium_config" {
   description = "Configuration options for bootstrapping cilium"
   type = object({
+    namespace                  = string
     node_network               = string
     kube_version               = string
     cilium_version             = string
@@ -91,6 +89,7 @@ variable "cilium_config" {
     load_balancer_stop         = number
   })
   default = {
+    namespace                  = "cilium"
     node_network               = "10.3.3.0/24"
     kube_version               = "1.33.0"
     cilium_version             = "1.17.6"

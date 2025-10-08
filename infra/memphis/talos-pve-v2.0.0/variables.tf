@@ -3,11 +3,11 @@ variable "env" {
   type        = string
   validation {
     condition = anytrue([
-      var.environment == "test",
-      var.environment == "dev",
-      var.environment == "prod",
+      var.env == "test",
+      var.env == "dev",
+      var.env == "prod",
     ])
-    error_message = "Please use one of the approved environement names: dev, prod, test "
+    error_message = "Please use one of the approved environement names: dev, testing, prod"
   }
 }
 
@@ -15,7 +15,7 @@ variable "pve_hosts" {
   description = "Proxmox VE configuration options"
   type = object({
     hosts         = list(string)
-    pve_endpoint  = string
+    endpoint      = string
     iso_datastore = string
     gateway       = string
     password      = string
@@ -23,7 +23,7 @@ variable "pve_hosts" {
 }
 
 variable "cluster" {
-  description = "Cluster configuration"
+  description = "Talos Linux K8s configuration"
   type = object({
     name                     = string
     endpoint                 = string
@@ -52,12 +52,19 @@ variable "nodes" {
     ip               = string
     cores            = number
     memory           = number
-    datastore_id     = optional(string, "local-lvm")
+    datastore_id     = string
     storage_id       = string
     size             = number
     storage_size     = number
   }))
 }
+
+variable "network_id" {
+  description = "id of network bridge, (useful for SDN)"
+  type        = string
+  default     = "vmbr0"
+}
+
 variable "dns_servers" {
   description = "DNS servers for the nodes"
   type = object({
@@ -69,6 +76,7 @@ variable "dns_servers" {
     secondary = "8.8.8.8"
   }
 }
+
 variable "cilium_config" {
   description = "Configuration options for bootstrapping cilium"
   type = object({
@@ -89,10 +97,10 @@ variable "cilium_config" {
     load_balancer_stop         = number
   })
   default = {
-    namespace                  = "cilium"
+    namespace                  = "networking"
     node_network               = "10.3.3.0/24"
-    kube_version               = "1.34.0"
-    cilium_version             = "1.18.2"
+    kube_version               = "1.33.0"
+    cilium_version             = "1.17.6"
     hubble_enabled             = false
     hubble_ui_enabled          = false
     relay_enabled              = false
