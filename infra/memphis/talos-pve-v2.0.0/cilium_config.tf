@@ -12,12 +12,12 @@ data "helm_template" "this" {
     yamlencode({
       resources = {
         limits = {
-          cpu    = "2000m"
-          memory = "1Gi"
+          cpu    = "100m"
+          memory = "512Mi"
         }
         requests = {
-          cpu    = "100m"
-          memory = "206Mi"
+          cpu    = "1000m"
+          memory = "1Gi"
         }
       }
 
@@ -105,8 +105,8 @@ data "helm_template" "this" {
       }
 
       k8sClientRateLimit = {
-        qps   = 30
-        burst = 50
+        qps   = 50
+        burst = 100
       }
     })
   ]
