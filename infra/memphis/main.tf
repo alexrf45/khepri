@@ -1,7 +1,7 @@
 module "memphis" {
   #source = "./talos-pve-v2.0.0"
   source        = "git@github.com:alexrf45/lab.git//talos-pve-v2.0.0"
-  env           = var.env
+  environment   = var.environment
   cluster       = var.cluster
   pve_hosts     = var.pve_hosts
   nodes         = var.nodes

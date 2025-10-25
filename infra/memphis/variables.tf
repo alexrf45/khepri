@@ -1,11 +1,11 @@
-variable "env" {
+variable "environment" {
   description = "operating environment of cluster"
   type        = string
   validation {
     condition = anytrue([
-      var.env == "test",
-      var.env == "dev",
-      var.env == "prod",
+      var.environment == "test",
+      var.environment == "dev",
+      var.environment == "prod",
     ])
     error_message = "Please use one of the approved environement names: test, dev, prod "
   }
