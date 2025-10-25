@@ -31,6 +31,8 @@ variable "cluster" {
     talos_version            = string
     install_disk             = string
     storage_disk             = string
+    storage_disk_1           = string
+    storage_disk_2           = string
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string

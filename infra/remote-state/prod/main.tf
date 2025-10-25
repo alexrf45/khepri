@@ -2,7 +2,8 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 6.2.0"
+
     }
   }
   backend "s3" {
@@ -18,9 +19,9 @@ provider "aws" {
 
 
 module "home-lab" {
-  source     = "github.com/alexrf45/lab//s3-remote-state?ref=v0.0.3"
+  source     = "github.com/alexrf45/lab//s3-remote-state?ref=test"
   env        = "prod"
-  app        = "home-ops"
+  app        = "khepri"
   versioning = "Enabled"
 }
 
@@ -33,13 +34,4 @@ output "s3_bucket_arn" {
 output "bucket_name" {
   value       = module.home-lab.bucket_name
   description = "The name of the bucket"
-}
-
-output "dynamodb_table_name" {
-  value = module.home-lab.dynamodb_table_name
-}
-
-output "dynamodb_arn" {
-  value       = module.home-lab.dynamodb_arn
-  description = "ARN of dynamodb_table"
 }
