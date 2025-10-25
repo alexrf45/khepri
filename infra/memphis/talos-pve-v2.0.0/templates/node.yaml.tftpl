@@ -23,9 +23,16 @@ machine:
     clusterDNS:
       - 10.43.0.10
     extraMounts:
-      - destination: ${storage_disk}
+      - destination: ${storage_disk_1}
         type: bind
-        source: ${storage_disk}
+        source: ${storage_disk_1}
+        options:
+          - rbind
+          - rshared
+          - rw
+      - destination: ${storage_disk_2}
+        type: bind
+        source: ${storage_disk_2}
         options:
           - rbind
           - rshared
@@ -33,7 +40,11 @@ machine:
   disks:
     - device: /dev/vdb
       partitions:
-        - mountpoint: ${storage_disk}
+        - mountpoint: ${storage_disk_1}
+    - device: /dev/vdc
+      partitions:
+        - mountpoint: ${storage_disk_2}
+
   install:
     disk: ${install_disk}
     image: ${install_image}

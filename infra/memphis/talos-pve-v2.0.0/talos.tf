@@ -24,11 +24,11 @@ data "talos_machine_configuration" "this" {
       install_disk     = var.cluster.install_disk
       install_image    = talos_image_factory_schematic.controlplane.id
       storage_disk     = var.cluster.storage_disk
-      hostname         = format("${var.env}-${var.cluster.name}-cp-${random_id.example[each.key].hex}")
+      hostname         = format("${var.environment}-${var.cluster.name}-cp-${random_id.example[each.key].hex}")
       allow_scheduling = each.value.allow_scheduling
       node_name        = each.value.node
       cluster_name     = var.cluster.name
-      endpoint         = var.pve_hosts.endpoint
+      endpoint         = var.cluster.endpoint
       vip_ip           = var.cluster.vip_ip
       nameserver1      = var.dns_servers.primary
       nameserver2      = var.dns_servers.secondary
@@ -52,14 +52,15 @@ data "talos_machine_configuration" "this" {
     }),
     ] : [
     templatefile("${path.module}/templates/node.yaml.tftpl", {
-      install_disk  = var.cluster.install_disk
-      storage_disk  = var.cluster.storage_disk
-      install_image = talos_image_factory_schematic.worker.id
-      hostname      = format("${var.env}-${var.cluster.name}-node-${random_id.example[each.key].hex}")
-      node_name     = each.value.node
-      cluster_name  = var.cluster.name
-      nameserver1   = var.dns_servers.primary
-      nameserver2   = var.dns_servers.secondary
+      install_disk   = var.cluster.install_disk
+      storage_disk_1 = var.cluster.storage_disk_1
+      storage_disk_2 = var.cluster.storage_disk_2
+      install_image  = talos_image_factory_schematic.worker.id
+      hostname       = format("${var.environment}-${var.cluster.name}-node-${random_id.example[each.key].hex}")
+      node_name      = each.value.node
+      cluster_name   = var.cluster.name
+      nameserver1    = var.dns_servers.primary
+      nameserver2    = var.dns_servers.secondary
     }),
   ]
 }
@@ -93,7 +94,6 @@ resource "time_sleep" "wait_until_apply" {
   ]
   create_duration = "1m"
 }
-
 
 #You only need to bootstrap 1 control node, we pick the first one
 resource "talos_machine_bootstrap" "this" {

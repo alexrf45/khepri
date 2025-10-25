@@ -1,11 +1,11 @@
-variable "env" {
+variable "environment" {
   description = "operating environment of cluster"
   type        = string
   validation {
     condition = anytrue([
-      var.env == "test",
-      var.env == "dev",
-      var.env == "prod",
+      var.environment == "test",
+      var.environment == "dev",
+      var.environment == "prod",
     ])
     error_message = "Please use one of the approved environement names: dev, testing, prod"
   }
@@ -31,6 +31,8 @@ variable "cluster" {
     talos_version            = string
     install_disk             = string
     storage_disk             = string
+    storage_disk_1           = string
+    storage_disk_2           = string
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string
@@ -57,12 +59,6 @@ variable "nodes" {
     size             = number
     storage_size     = number
   }))
-}
-
-variable "network_id" {
-  description = "id of network bridge, (useful for SDN)"
-  type        = string
-  default     = "vmbr0"
 }
 
 variable "dns_servers" {

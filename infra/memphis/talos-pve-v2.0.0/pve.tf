@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_download_file" "talos_control_plane_image"
   node_name               = var.pve_hosts.hosts[count.index]
   url                     = data.talos_image_factory_urls.controlplane.urls.disk_image
   decompression_algorithm = "zst"
-  file_name               = "${var.env}-control-plane-talos.img"
+  file_name               = "${var.environment}-control-plane-talos.img"
   overwrite               = false
   upload_timeout          = 3600
 }
@@ -17,7 +17,7 @@ resource "proxmox_virtual_environment_download_file" "talos_worker_image" {
   node_name               = var.pve_hosts.hosts[count.index]
   url                     = data.talos_image_factory_urls.worker.urls.disk_image
   decompression_algorithm = "zst"
-  file_name               = "${var.env}-worker-talos.img"
+  file_name               = "${var.environment}-worker-talos.img"
   overwrite               = false
   upload_timeout          = 3600
 }
@@ -30,10 +30,10 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
     proxmox_virtual_environment_download_file.talos_worker_image
   ]
   for_each        = var.nodes
-  name            = each.value.machine_type == "controlplane" ? format("${var.env}-${var.cluster.name}-cp-${random_id.example[each.key].hex}") : format("${var.env}-${var.cluster.name}-node-${random_id.example[each.key].hex}")
+  name            = each.value.machine_type == "controlplane" ? format("${var.environment}-${var.cluster.name}-cp-${random_id.example[each.key].hex}") : format("${var.environment}-${var.cluster.name}-node-${random_id.example[each.key].hex}")
   node_name       = each.value.node
   description     = each.value.machine_type == "controlplane" ? "Talos Control Plane" : "Talos Node Enivornment"
-  tags            = each.value.machine_type == "controlplane" ? ["k8s", "cp", "${var.env}"] : ["k8s", "node", "${var.env}"]
+  tags            = each.value.machine_type == "controlplane" ? ["k8s", "cp", "${var.environment}"] : ["k8s", "node", "${var.environment}"]
   machine         = "q35"
   scsi_hardware   = "virtio-scsi-single"
   stop_on_destroy = true
@@ -81,6 +81,19 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
     discard      = "on"
     size         = each.value.storage_size
   }
+  dynamic "disk" {
+    for_each = each.value.machine_type == "worker" ? [1] : []
+    content {
+      datastore_id = each.value.storage_id
+      interface    = "virtio1"
+      file_format  = "raw"
+      ssd          = true
+      iothread     = true
+      cache        = "writethrough"
+      discard      = "on"
+      size         = each.value.storage_size
+    }
+  }
   initialization {
     datastore_id = each.value.datastore_id
     dns {
@@ -97,7 +110,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
     }
   }
   network_device {
-    bridge = var.network_id
+    bridge = "vmbr0"
   }
 
   boot_order = ["virtio0"]
