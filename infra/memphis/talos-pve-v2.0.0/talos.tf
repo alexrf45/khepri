@@ -19,49 +19,15 @@ data "talos_machine_configuration" "this" {
   talos_version    = var.cluster.talos_version
   machine_type     = each.value.machine_type
   machine_secrets  = talos_machine_secrets.this.machine_secrets
-  config_patches = each.value.machine_type == "controlplane" ? [
-    templatefile("${path.module}/templates/control_plane.yaml.tftpl", {
-      install_disk     = var.cluster.install_disk
-      install_image    = talos_image_factory_schematic.controlplane.id
-      storage_disk     = var.cluster.storage_disk
-      hostname         = format("${var.environment}-${var.cluster.name}-cp-${random_id.example[each.key].hex}")
-      allow_scheduling = each.value.allow_scheduling
-      node_name        = each.value.node
-      cluster_name     = var.cluster.name
-      endpoint         = var.cluster.endpoint
-      vip_ip           = var.cluster.vip_ip
-      nameserver1      = var.dns_servers.primary
-      nameserver2      = var.dns_servers.secondary
-    }),
-    templatefile("${path.module}/templates/patch.yaml.tftpl", {
-      tailscale_auth = var.cluster.tailscale_auth
-    }),
-    yamlencode({
-      cluster = {
-        inlineManifests = [
 
-          {
-            name = "cilium"
-            contents = join("---\n", [
-              data.helm_template.this.manifest,
-              "# Source cilium.tf\n${local.cilium_lb_manifest}",
-            ])
-          }
-        ]
-      }
-    }),
+  config_patches = each.value.machine_type == "controlplane" ? [
+    # Control plane machine config
+    yamlencode(local.controlplane_configs[each.key]),
+    # Tailscale extension config
+    yamlencode(local.tailscale_config),
     ] : [
-    templatefile("${path.module}/templates/node.yaml.tftpl", {
-      install_disk   = var.cluster.install_disk
-      storage_disk_1 = var.cluster.storage_disk_1
-      storage_disk_2 = var.cluster.storage_disk_2
-      install_image  = talos_image_factory_schematic.worker.id
-      hostname       = format("${var.environment}-${var.cluster.name}-node-${random_id.example[each.key].hex}")
-      node_name      = each.value.node
-      cluster_name   = var.cluster.name
-      nameserver1    = var.dns_servers.primary
-      nameserver2    = var.dns_servers.secondary
-    }),
+    # Worker machine config
+    yamlencode(local.worker_configs[each.key]),
   ]
 }
 
@@ -81,10 +47,8 @@ resource "talos_machine_configuration_apply" "this" {
     create = "5m"
   }
   lifecycle {
-    # re-run config apply if vm changes
     replace_triggered_by = [proxmox_virtual_environment_vm.talos_vm[each.key]]
   }
-
 }
 
 resource "time_sleep" "wait_until_apply" {
@@ -115,7 +79,7 @@ resource "time_sleep" "wait_until_bootstrap" {
     talos_machine_bootstrap.this,
     proxmox_virtual_environment_vm.talos_vm
   ]
-  create_duration = "2m"
+  create_duration = "1m"
 }
 
 resource "talos_cluster_kubeconfig" "this" {
