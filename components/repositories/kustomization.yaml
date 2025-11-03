@@ -16,6 +16,6 @@ resources:
   - longhorn.yaml
   - mariadb-operator.yaml
   - onepassword.yaml
-  - ot-heml.yaml
+  - ot-helm.yaml
   - renovate.yaml
   - tailscale.yaml
