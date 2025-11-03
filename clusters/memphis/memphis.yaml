@@ -26,7 +26,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./controllers/prod
+  path: ./controllers/dev
   prune: true
   decryption:
     provider: sops
@@ -47,7 +47,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./applications/prod
+  path: ./applications/dev
   prune: true
   decryption:
     provider: sops

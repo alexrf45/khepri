@@ -48,9 +48,9 @@ spec:
       createClusterSecretStore: true
       createPushSecret: true
     serviceMonitor:
-      enabled: true
+      enabled: false
       namespace: "monitoring"
     grafanaDashboard:
-      enabled: true
+      enabled: false
     replicaCount: 1
     revisionHistoryLimit: 15
