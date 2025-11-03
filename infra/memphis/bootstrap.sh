@@ -29,8 +29,8 @@ flux-deploy() {
   #
   flux bootstrap git \
     --cluster-domain=cluster.local \
-    --url=ssh://git@github.com/alexrf45/home-ops.git \
-    --path=clusters/testing \
+    --url=ssh://git@github.com/alexrf45/khepri.git \
+    --path=clusters/memphis \
     --private-key-file=/home/fr3d/.ssh/fr3d \
     --branch main \
     --force
