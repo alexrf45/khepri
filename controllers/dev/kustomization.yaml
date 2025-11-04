@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - ../base/cert-manager
   - ../base/external-secrets
-  - external-dns
   - ../base/onepassword-connect
   - ../base/tailscale
   - ../base/kyverno
