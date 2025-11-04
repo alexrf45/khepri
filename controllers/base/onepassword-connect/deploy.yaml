@@ -40,7 +40,7 @@ spec:
         imageRepository: 1password/connect-api
         logLevel: info
         serviceMonitor:
-          enabled: true
+          enabled: false
           interval: 30s
           path: "/metrics"
       credentialsName: onepassword-connect-secret
