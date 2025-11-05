@@ -12,8 +12,8 @@ data "helm_template" "this" {
     yamlencode({
       resources = {
         limits = {
-          cpu    = "2000m"
-          memory = "1Gi"
+          cpu    = "1000m"
+          memory = "500mi"
         }
         requests = {
           cpu    = "100m"
