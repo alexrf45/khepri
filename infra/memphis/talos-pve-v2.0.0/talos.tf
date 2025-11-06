@@ -23,10 +23,8 @@ data "talos_machine_configuration" "this" {
   config_patches = each.value.machine_type == "controlplane" ? [
     # Control plane machine config
     yamlencode(local.controlplane_configs[each.key]),
-    # Tailscale extension config
-    yamlencode(local.tailscale_config),
+    #yamlencode(local.tailscale_config),
     ] : [
-    # Worker machine config
     yamlencode(local.worker_configs[each.key]),
   ]
 }

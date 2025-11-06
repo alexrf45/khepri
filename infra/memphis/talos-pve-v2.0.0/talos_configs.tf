@@ -15,14 +15,14 @@ locals {
   }
 
   # Tailscale extension configuration
-  tailscale_config = {
-    apiVersion = "v1alpha1"
-    kind       = "ExtensionServiceConfig"
-    name       = "tailscale"
-    environment = [
-      "TS_AUTHKEY=${var.cluster.tailscale_auth}"
-    ]
-  }
+  # tailscale_config = {
+  #   apiVersion = "v1alpha1"
+  #   kind       = "ExtensionServiceConfig"
+  #   name       = "tailscale"
+  #   environment = [
+  #     "TS_AUTHKEY=${var.cluster.tailscale_auth}"
+  #   ]
+  # }
 
   # Control plane machine configuration
   controlplane_machine_config = {
@@ -38,8 +38,8 @@ locals {
       }
       files = [
         {
-          path = "/etc/cri/conf.d/20-customization.part"
-          op   = "create"
+          path    = "/etc/cri/conf.d/20-customization.part"
+          op      = "create"
           content = <<-EOT
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
@@ -107,8 +107,8 @@ locals {
       }
       files = [
         {
-          path = "/etc/cri/conf.d/20-customization.part"
-          op   = "create"
+          path    = "/etc/cri/conf.d/20-customization.part"
+          op      = "create"
           content = <<-EOT
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
@@ -215,7 +215,7 @@ locals {
         extraManifests = [
           "https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml",
           "https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml",
-          "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml"
+          "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml"
         ]
         inlineManifests = [
           {
@@ -237,7 +237,7 @@ locals {
                 name = "networking"
                 labels = {
                   "pod-security.kubernetes.io/enforce" = "privileged"
-                  "app"                                 = "networking"
+                  "app"                                = "networking"
                 }
               }
             })
@@ -251,7 +251,7 @@ locals {
                 name = "storage"
                 labels = {
                   "pod-security.kubernetes.io/enforce" = "privileged"
-                  "app"                                 = "storage"
+                  "app"                                = "storage"
                 }
               }
             })

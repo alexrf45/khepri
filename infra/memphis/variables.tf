@@ -45,7 +45,7 @@ variable "cluster" {
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string
-    tailscale_auth           = string
+    #tailscale_auth           = string
   })
   validation {
     condition     = can(regex("^[a-zA-Z0-9]+$", var.cluster.name)) && length(var.cluster.name) >= 4
