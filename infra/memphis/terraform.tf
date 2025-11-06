@@ -17,6 +17,10 @@ terraform {
       source  = "hashicorp/random"
       version = "3.7.2"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "~> 1.14"
+    }
   }
   backend "s3" {
 

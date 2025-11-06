@@ -296,15 +296,6 @@ locals {
             allowSchedulingOnControlPlanes = v.allow_scheduling
             inlineManifests = concat(
               local.controlplane_cluster_config.cluster.inlineManifests,
-              [
-                {
-                  name = "cilium"
-                  contents = join("---\n", [
-                    data.helm_template.this.manifest,
-                    "# Source cilium.tf\n${local.cilium_lb_manifest}",
-                  ])
-                }
-              ]
             )
           }
         )

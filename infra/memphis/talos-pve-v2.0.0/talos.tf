@@ -54,7 +54,7 @@ resource "time_sleep" "wait_until_apply" {
     talos_machine_configuration_apply.this,
     proxmox_virtual_environment_vm.talos_vm
   ]
-  create_duration = "1m"
+  create_duration = "15s"
 }
 
 #You only need to bootstrap 1 control node, we pick the first one
@@ -77,7 +77,7 @@ resource "time_sleep" "wait_until_bootstrap" {
     talos_machine_bootstrap.this,
     proxmox_virtual_environment_vm.talos_vm
   ]
-  create_duration = "1m"
+  create_duration = "20s"
 }
 
 resource "talos_cluster_kubeconfig" "this" {
