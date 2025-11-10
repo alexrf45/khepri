@@ -3,8 +3,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: iscsi
-  namespace: disk
+  name: truenas-iscsi
+  namespace: flux-system
 spec:
   interval: 5m
   timeout: 15m
@@ -16,66 +16,17 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  targetNamespace: storage
   values:
-    controller:
-      externalAttacher:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-      externalProvisioner:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-      externalResizer:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-      externalSnapshotter:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-      driver:
-        image:
-          registry: docker.io/democraticcsi/democratic-csi
-          tag: next
-          pullPolicy: Always
-        resources:
-          requests:
-            cpu: 20m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-    csiProxy:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 50Mi
-          ephemeral-storage: 100Mi
-        limits:
-          memory: 150Mi
-          ephemeral-storage: 200Mi
     csiDriver:
       name: "iscsi"
     storageClasses:
@@ -87,36 +38,29 @@ spec:
         parameters:
           fsType: ext4
           detachedVolumesFromSnapshots: "false"
-        mountOptions: []
-        secrets:
-          provisioner-secret:
-          controller-publish-secret:
-          node-stage-secret:
-          node-publish-secret:
-          controller-expand-secret:
     driver:
       config:
         driver: freenas-api-iscsi
         instance_id:
         httpConnection:
-          protocol: http
-          host: ${CONFIG_TRUENAS_IP}
+          protocol: https
+          host: 192.168.20.106
           port: 443
           allowInsecure: true
           apiKey: ${TRUENAS_API_KEY}
           apiVersion: 2
         zfs:
-          datasetParentName: storage/iscsi/v
-          detachedSnapshotsDatasetParentName: storage/iscsi/s
-          zvolCompression:
+          datasetParentName: home-share/iscsi/k8s/dev/volumes
+          detachedSnapshotsDatasetParentName: home-share/iscsi/k8s/dev/snapshots
+          zvolCompression: "on"
           zvolDedup:
           zvolEnableReservation: false
           zvolBlocksize:
         iscsi:
-          targetPortal: "${CONFIG_TRUENAS_IP}:3260"
+          targetPortal: "192.168.20.106:3260"
           interface:
           namePrefix: csi-
-          nameSuffix: "-clustera"
+          nameSuffix: "-k8sdev"
           targetGroups:
             - targetGroupPortalGroup: 11
               targetGroupInitiatorGroup: 21
@@ -128,44 +72,3 @@ spec:
           extentBlocksize: 512
           extentRpm: "SSD"
           extentAvailThreshold: 0
-    node:
-      # kubeletHostPath: /var/lib/k0s/kubelet
-      hostPID: true
-      driver:
-        image:
-          registry: docker.io/democraticcsi/democratic-csi
-          tag: next
-          pullPolicy: Always
-        resources:
-          requests:
-            cpu: 30m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-        extraEnv:
-          - name: ISCSIADM_HOST_STRATEGY
-            value: nsenter
-          - name: ISCSIADM_HOST_PATH
-            value: /usr/local/sbin/iscsiadm
-        iscsiDirHostPath: /var/iscsi
-        iscsiDirHostPathType: ""
-      driverRegistrar:
-        resources:
-          requests:
-            cpu: 30m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi
-      cleanup:
-        resources:
-          requests:
-            cpu: 50m
-            memory: 50Mi
-            ephemeral-storage: 100Mi
-          limits:
-            memory: 200Mi
-            ephemeral-storage: 200Mi

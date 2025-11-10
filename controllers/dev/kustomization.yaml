@@ -10,5 +10,5 @@ resources:
   - ../base/renovate
  # - redis-operator
 #  - ../base/local-path
-  - longhorn
+#  - longhorn
   #  - ../base/csi-driver-smb
