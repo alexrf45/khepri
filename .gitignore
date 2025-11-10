@@ -38,3 +38,4 @@ terraform.rc
 remote.tfbackend
 terraform.tfvars
 token
+values.yaml.example

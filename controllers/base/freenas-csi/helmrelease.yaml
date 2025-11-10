@@ -26,49 +26,6 @@ spec:
   uninstall:
     keepHistory: false
   targetNamespace: storage
-  values:
-    csiDriver:
-      name: "iscsi"
-    storageClasses:
-      - name: iscsi
-        defaultClass: true
-        reclaimPolicy: Delete
-        volumeBindingMode: Immediate
-        allowVolumeExpansion: true
-        parameters:
-          fsType: ext4
-          detachedVolumesFromSnapshots: "false"
-    driver:
-      config:
-        driver: freenas-api-iscsi
-        instance_id:
-        httpConnection:
-          protocol: https
-          host: 192.168.20.106
-          port: 443
-          allowInsecure: true
-          apiKey: ${TRUENAS_API_KEY}
-          apiVersion: 2
-        zfs:
-          datasetParentName: home-share/iscsi/k8s/dev/volumes
-          detachedSnapshotsDatasetParentName: home-share/iscsi/k8s/dev/snapshots
-          zvolCompression: "on"
-          zvolDedup:
-          zvolEnableReservation: false
-          zvolBlocksize:
-        iscsi:
-          targetPortal: "192.168.20.106:3260"
-          interface:
-          namePrefix: csi-
-          nameSuffix: "-k8sdev"
-          targetGroups:
-            - targetGroupPortalGroup: 11
-              targetGroupInitiatorGroup: 21
-              targetGroupAuthType: None
-              targetGroupAuthGroup:
-          extentInsecureTpc: true
-          extentXenCompat: false
-          extentDisablePhysicalBlocksize: true
-          extentBlocksize: 512
-          extentRpm: "SSD"
-          extentAvailThreshold: 0
+  valuesFrom:
+    - kind: Secret
+      name: csi-values

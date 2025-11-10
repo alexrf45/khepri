@@ -8,6 +8,7 @@ resources:
   - ../base/kyverno
   - ../base/cloudnativepg
   - ../base/renovate
+  - ../base/freenas-csi
  # - redis-operator
 #  - ../base/local-path
 #  - longhorn
