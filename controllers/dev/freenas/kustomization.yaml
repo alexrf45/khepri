@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./controllers/base/freenas-csi
+  path: ../../base/freenas-csi
   prune: true
   sourceRef:
     kind: GitRepository
