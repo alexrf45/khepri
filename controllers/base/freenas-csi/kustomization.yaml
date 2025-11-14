@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: storage
 resources:
   - configmap.yaml
-  - secrets.yaml
+  - secrets.enc.yaml
   - helmrelease.yaml
 
 generatorOptions:
