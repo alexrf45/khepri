@@ -15,7 +15,5 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: truenas-config
-        namespace: storage
       - kind: Secret
         name: truenas-credentials
-        namespace: storage
