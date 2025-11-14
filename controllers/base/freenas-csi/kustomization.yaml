@@ -14,4 +14,4 @@ configMapGenerator:
   - name: truenas-config
     files:
       - configmap.yaml
-    behavior: merge
+    behavior: create
