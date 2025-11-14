@@ -14,30 +14,9 @@ spec:
         name: democratic-csi
         namespace: flux-system
   targetNamespace: storage
-  postBuild:
-    substitute:
-      truenas_host: "${TRUENAS_HOST}"
-      truenas_username: "${TRUENAS_USERNAME}"
-      truenas_protocol: "${TRUENAS_PROTOCOL}"
-      truenas_port: "${TRUENAS_PORT}"
-      truenas_iscsi_portal: "${TRUENAS_ISCSI_PORTAL}"
-      dataset_parent: "${DATASET_PARENT}"
-      dataset_snapshots: "${DATASET_SNAPSHOTS}"
-      storage_class_name: "${STORAGE_CLASS_NAME}"
-      allow_insecure: "${ALLOW_INSECURE}"
-      truenas_password: "${TRUENAS_PASSWORD}"
-    substituteFrom:
-      # Both ConfigMap and Secret - Flux reads from both
-      - kind: ConfigMap
-        name: truenas-config
-        optional: false
-      - kind: Secret
-        name: truenas-credentials
-        optional: false
-
   values:
     storageClasses:
-      - name: ${storage_class_name}
+      - name: ${STORAGE_CLASS_NAME}
         defaultClass: true
         reclaimPolicy: Delete
         volumeBindingMode: Immediate
@@ -51,21 +30,21 @@ spec:
         driver: freenas-api-iscsi
         instance_id: null
         httpConnection:
-          protocol: ${truenas_protocol}
-          host: ${truenas_host}
-          port: ${truenas_port}
-          username: ${truenas_username}
-          password: ${truenas_password}
-          allowInsecure: ${allow_insecure}
+          protocol: ${TRUENAS_PROTOCOL}
+          host: ${TRUENAS_HOST}
+          port: ${TRUENAS_PORT}
+          username: ${TRUENAS_USERNAME}
+          password: ${TRUENAS_PASSWORD}
+          allowInsecure: ${ALLOW_INSECURE}
         zfs:
-          datasetParentName: ${dataset_parent}
-          detachedSnapshotsDatasetParentName: ${dataset_snapshots}
+          datasetParentName: ${DATASET_PARENT}
+          detachedSnapshotsDatasetParentName: ${DATASET_SNAPSHOTS}
           zvolCompression: "on"
           zvolDedup: null
           zvolEnableReservation: false
           zvolBlocksize: null
         iscsi:
-          targetPortal: ${truenas_iscsi_portal}
+          targetPortal: ${TRUENAS_ISCSI_PORTAL}
           interface: null
           namePrefix: csi-
           nameSuffix: -k8s
