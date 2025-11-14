@@ -6,9 +6,3 @@ resources:
   - configmap.yaml
   - secrets.enc.yaml
   - helmrelease.yaml
-postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: truenas-config
-      - kind: Secret
-        name: truenas-credentials

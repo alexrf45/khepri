@@ -13,6 +13,14 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
   targetNamespace: storage
   values:
     storageClasses:
@@ -60,16 +68,3 @@ spec:
           extentRpm: SSD
           extentAvailThreshold: 0
 
-  install:
-    crds: Create
-    remediation:
-      retries: 3
-
-  upgrade:
-    crds: CreateReplace
-    remediation:
-      retries: 3
-
-  dependsOn:
-    - name: truenas-config
-    - name: truenas-credentials
