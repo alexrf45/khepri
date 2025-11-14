@@ -23,6 +23,8 @@ spec:
       retries: 3
   targetNamespace: storage
   values:
+    csiDriver:
+      name: "freenas-iscsi"
     storageClasses:
       - name: ${STORAGE_CLASS_NAME}
         defaultClass: true
