@@ -39,3 +39,4 @@ remote.tfbackend
 terraform.tfvars
 token
 values.yaml.example
+csi-values.yaml

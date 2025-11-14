@@ -1,45 +1,44 @@
-csiDriver:
-    name: iscsi
-    storageClasses:
-        - name: iscsi
-          defaultClass: true
-          reclaimPolicy: Delete
-          volumeBindingMode: Immediate
-          allowVolumeExpansion: true
-          parameters:
-            fsType: ext4
-            detachedVolumesFromSnapshots: "false"
-    driver:
-        config:
-            driver: freenas-api-iscsi
-            instance_id: null
-            httpConnection:
-                protocol: https
-                host: 192.168.20.106
-                port: 443
-                username: k8s-iscsi
-                password: pgp_evj9rtf@bka-FZU
-                allowInsecure: true
-            zfs:
-                datasetParentName: home-share/iscsi/k8s/dev/volumes
-                detachedSnapshotsDatasetParentName: home-share/iscsi/k8s/dev/snapshots
-                zvolCompression: "on"
-                zvolDedup: null
-                zvolEnableReservation: false
-                zvolBlocksize: null
-            iscsi:
-                targetPortal: 192.168.20.106:3260
-                interface: null
-                namePrefix: csi-
-                nameSuffix: -k8sdev
-                targetGroups:
-                    - targetGroupPortalGroup: 1
-                      targetGroupInitiatorGroup: 7
-                      targetGroupAuthType: None
-                      targetGroupAuthGroup: null
-                extentInsecureTpc: true
-                extentXenCompat: false
-                extentDisablePhysicalBlocksize: true
-                extentBlocksize: 512
-                extentRpm: SSD
-                extentAvailThreshold: 0
+storageClasses:
+  - name: iscsi
+    defaultClass: true
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      fsType: ext4
+      detachedVolumesFromSnapshots: "false"
+
+driver:
+  config:
+    driver: freenas-api-iscsi
+    instance_id: null
+    httpConnection:
+      protocol: https
+      host: 192.168.20.106
+      port: 443
+      username: k8s-iscsi
+      password: pgp_evj9rtf@bka-FZU
+      allowInsecure: true
+    zfs:
+      datasetParentName: home-share/iscsi/k8s/dev/volumes
+      detachedSnapshotsDatasetParentName: home-share/iscsi/k8s/dev/snapshots
+      zvolCompression: "on"
+      zvolDedup: null
+      zvolEnableReservation: false
+      zvolBlocksize: null
+    iscsi:
+      targetPortal: 192.168.20.106:3260
+      interface: null
+      namePrefix: csi-
+      nameSuffix: -k8sdev
+      targetGroups:
+        - targetGroupPortalGroup: 1
+          targetGroupInitiatorGroup: 7
+          targetGroupAuthType: None
+          targetGroupAuthGroup: null
+      extentInsecureTpc: true
+      extentXenCompat: false
+      extentDisablePhysicalBlocksize: true
+      extentBlocksize: 512
+      extentRpm: SSD
+      extentAvailThreshold: 0
