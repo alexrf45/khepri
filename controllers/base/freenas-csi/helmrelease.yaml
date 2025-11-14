@@ -1,31 +1,94 @@
 ---
-# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: truenas-iscsi
-  namespace: flux-system
+  name: democratic-csi
+  namespace: storage
 spec:
-  interval: 5m
-  timeout: 15m
+  interval: 30m
   chart:
     spec:
       chart: democratic-csi
-      version: 0.15.0
+      version: "0.15.0"
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
+
+  postBuild:
+    substitute:
+      truenas_host: "${TRUENAS_HOST}"
+      truenas_username: "${TRUENAS_USERNAME}"
+      truenas_protocol: "${TRUENAS_PROTOCOL}"
+      truenas_port: "${TRUENAS_PORT}"
+      truenas_iscsi_portal: "${TRUENAS_ISCSI_PORTAL}"
+      dataset_parent: "${DATASET_PARENT}"
+      dataset_snapshots: "${DATASET_SNAPSHOTS}"
+      storage_class_name: "${STORAGE_CLASS_NAME}"
+      allow_insecure: "${ALLOW_INSECURE}"
+    substituteFrom:
+      - kind: Secret
+        name: truenas-credentials
+
+  values:
+    storageClasses:
+      - name: ${storage_class_name}
+        defaultClass: true
+        reclaimPolicy: Delete
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+          detachedVolumesFromSnapshots: "false"
+
+    driver:
+      config:
+        driver: freenas-api-iscsi
+        instance_id: null
+        httpConnection:
+          protocol: ${truenas_protocol}
+          host: ${truenas_host}
+          port: ${truenas_port}
+          username: ${truenas_username}
+          password: ${TRUENAS_PASSWORD}
+          allowInsecure: ${allow_insecure}
+        zfs:
+          datasetParentName: ${dataset_parent}
+          detachedSnapshotsDatasetParentName: ${dataset_snapshots}
+          zvolCompression: "on"
+          zvolDedup: null
+          zvolEnableReservation: false
+          zvolBlocksize: null
+        iscsi:
+          targetPortal: ${truenas_iscsi_portal}
+          interface: null
+          namePrefix: csi-
+          nameSuffix: -k8s
+          targetGroups:
+            - targetGroupPortalGroup: 1
+              targetGroupInitiatorGroup: 7
+              targetGroupAuthType: None
+              targetGroupAuthGroup: null
+          extentInsecureTpc: true
+          extentXenCompat: false
+          extentDisablePhysicalBlocksize: true
+          extentBlocksize: 512
+          extentRpm: SSD
+          extentAvailThreshold: 0
+
   install:
+    crds: Create
     remediation:
       retries: 3
+
   upgrade:
-    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
-  targetNamespace: storage
-  valuesFrom:
-    - kind: Secret
-      name: csi-values
+
+  # Automatically reconcile when ConfigMap changes
+  dependsOn:
+    - name: truenas-config
+      namespace: storage
+    - name: truenas-credentials
+      namespace: storage
