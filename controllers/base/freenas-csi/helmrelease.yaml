@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
-
+  targetNamespace: storage
   postBuild:
     substitute:
       truenas_host: "${TRUENAS_HOST}"
@@ -26,9 +26,15 @@ spec:
       dataset_snapshots: "${DATASET_SNAPSHOTS}"
       storage_class_name: "${STORAGE_CLASS_NAME}"
       allow_insecure: "${ALLOW_INSECURE}"
+      truenas_password: "${TRUENAS_PASSWORD}"
     substituteFrom:
+      # Both ConfigMap and Secret - Flux reads from both
+      - kind: ConfigMap
+        name: truenas-config
+        optional: false
       - kind: Secret
         name: truenas-credentials
+        optional: false
 
   values:
     storageClasses:
@@ -50,7 +56,7 @@ spec:
           host: ${truenas_host}
           port: ${truenas_port}
           username: ${truenas_username}
-          password: ${TRUENAS_PASSWORD}
+          password: ${truenas_password}
           allowInsecure: ${allow_insecure}
         zfs:
           datasetParentName: ${dataset_parent}
@@ -86,9 +92,6 @@ spec:
     remediation:
       retries: 3
 
-  # Automatically reconcile when ConfigMap changes
   dependsOn:
     - name: truenas-config
-      namespace: storage
     - name: truenas-credentials
-      namespace: storage
