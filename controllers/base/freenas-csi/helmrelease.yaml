@@ -25,6 +25,8 @@ spec:
   values:
     csiDriver:
       name: "freenas-iscsi"
+    csiProxy:
+      enabled: false
     storageClasses:
       - name: ${STORAGE_CLASS_NAME}
         defaultClass: true
