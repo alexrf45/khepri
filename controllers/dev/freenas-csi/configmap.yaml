@@ -6,8 +6,8 @@ metadata:
   namespace: flux-system
 data:
   TRUENAS_HOST: "192.168.20.106"
-  TRUENAS_PROTOCOL: "https"
-  TRUENAS_PORT: "443"
+  TRUENAS_PROTOCOL: "http"
+  TRUENAS_PORT: "80"
   TRUENAS_USERNAME: "truenas_admin"
   TRUENAS_ISCSI_PORTAL: "192.168.20.106:3260"
   DATASET_PARENT: "home-share/iscsi/k8s/dev/volumes"
