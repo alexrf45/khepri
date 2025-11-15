@@ -47,6 +47,7 @@ spec:
           port: ${TRUENAS_PORT}
           username: ${TRUENAS_USERNAME}
           password: ${TRUENAS_PASSWORD}
+          apiKey: ${TRUENAS_API_KEY}
           allowInsecure: ${ALLOW_INSECURE}
         zfs:
           datasetParentName: ${DATASET_PARENT}
