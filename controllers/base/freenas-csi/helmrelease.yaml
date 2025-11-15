@@ -78,6 +78,6 @@ spec:
             value: nsenter
           - name: ISCSIADM_HOST_PATH
             value: /usr/local/sbin/iscsiadm
-        iscsiDirHostPath: /var/iscsi
+        iscsiDirHostPath: /var/lib/iscsi
         iscsiDirHostPathType: ''
       hostPID: true
