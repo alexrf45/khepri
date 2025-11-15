@@ -49,6 +49,7 @@ spec:
           password: ${TRUENAS_PASSWORD}
           apiKey: ${TRUENAS_API_KEY}
           allowInsecure: ${ALLOW_INSECURE}
+          apiVersion: 2
         zfs:
           datasetParentName: ${DATASET_PARENT}
           detachedSnapshotsDatasetParentName: ${DATASET_SNAPSHOTS}
