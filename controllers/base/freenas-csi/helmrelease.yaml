@@ -76,12 +76,12 @@ spec:
       driver:
         extraVolumeMounts: []
       extraVolumes: []
-    volumeOverrides:
-      - name: iscsi-dir
-        hostPath:
-          path: /var/etc/iscsi
-          type: DirectoryOrCreate
-      - name: iscsi-info
-        hostPath:
-          path: /var/lib/iscsi
-          type: DirectoryOrCreate
+    # volumeOverrides:
+    #   - name: iscsi-dir
+    #     hostPath:
+    #       path: /var/etc/iscsi
+    #       type: DirectoryOrCreate
+    #   - name: iscsi-info
+    #     hostPath:
+    #       path: /var/lib/iscsi
+    #       type: DirectoryOrCreate
