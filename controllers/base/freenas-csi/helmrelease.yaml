@@ -72,16 +72,12 @@ spec:
           extentRpm: SSD
           extentAvailThreshold: 0
     node:
-      hostPID: true
       driver:
-        extraVolumeMounts: []
-      extraVolumes: []
-    # volumeOverrides:
-    #   - name: iscsi-dir
-    #     hostPath:
-    #       path: /var/etc/iscsi
-    #       type: DirectoryOrCreate
-    #   - name: iscsi-info
-    #     hostPath:
-    #       path: /var/lib/iscsi
-    #       type: DirectoryOrCreate
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /var/iscsi
+        iscsiDirHostPathType: ''
+      hostPID: true
