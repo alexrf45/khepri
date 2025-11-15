@@ -69,4 +69,21 @@ spec:
           extentBlocksize: 512
           extentRpm: SSD
           extentAvailThreshold: 0
+    node:
+      hostPID: true
+      driver:
+        extraVolumeMounts:
+          - name: iscsi-dir
+            mountPath: /etc/iscsi
+          - name: iscsi-info
+            mountPath: /var/lib/iscsi
+      extraVolumes:
+        - name: iscsi-dir
+          hostPath:
+            path: /var/etc/iscsi  # Talos-specific path
+            type: DirectoryOrCreate
+        - name: iscsi-info
+          hostPath:
+            path: /var/lib/iscsi
+            type: DirectoryOrCreate
 
