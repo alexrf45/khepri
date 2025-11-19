@@ -32,7 +32,10 @@ spec:
         namespace: networking
     allowedRoutes:
       namespaces:
-        from: All
+        from: Selector
+        selector:
+          matchLabels:
+            dev-app-gateway: "true"
   - name: http-redirect
     protocol: HTTP
     port: 8080
