@@ -10,6 +10,6 @@ resources:
   - ../base/renovate
 #  - freenas-csi
  # - redis-operator
- # - ../base/local-path
+  - ../base/local-path
 #  - longhorn
   #  - ../base/csi-driver-smb
