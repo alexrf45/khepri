@@ -1,4 +1,9 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: freshrss
+---
 # PersistentVolumeClaim for FreshRSS config
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -102,10 +107,10 @@ metadata:
   namespace: freshrss
 spec:
   parentRefs:
-  - name: dev-app-gateway  # Replace with your Gateway name
-    namespace: networking  # Replace with your Gateway namespace
+  - name: dev-app-gateway
+    namespace: networking
   hostnames:
-  - dev.int.freshrss.fr3d.dev  # Replace with your domain
+  - dev.int.freshrss.home-0ps.com # Replace with your domain
   rules:
   - matches:
     - path:

@@ -58,7 +58,7 @@ spec:
     extraArgs:
       - --ignore-ingress-tls-spec
     policy: sync
-    sources: ["ingress", "service"]
+    sources: ["ingress", "service", "gateway-httproute"]
     txtOwnerId: default
     txtPrefix: k8s.
     domainFilters: ["home-0ps.com"]
