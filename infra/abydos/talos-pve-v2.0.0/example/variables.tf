@@ -3,27 +3,28 @@ variable "environment" {
   type        = string
   validation {
     condition = anytrue([
-      var.environment == "test",
       var.environment == "dev",
-      var.environment == "prod",
+      var.environment == "staging",
+      var.environment == "production",
+      var.environment == "testing",
     ])
-    error_message = "Please use one of the approved environement names: dev, testing, prod"
+    error_message = "Please use one of the approved environement names: dev, staging, production, testing"
   }
 }
 
-variable "pve_hosts" {
+variable "pve_config" {
   description = "Proxmox VE configuration options"
   type = object({
     hosts         = list(string)
-    endpoint      = string
+    pve_endpoint  = string
     iso_datastore = string
+    igpu          = optional(bool, false)
     gateway       = string
     password      = string
   })
 }
-
 variable "cluster" {
-  description = "Talos Linux K8s configuration"
+  description = "Cluster configuration"
   type = object({
     name                     = string
     endpoint                 = string
@@ -31,8 +32,6 @@ variable "cluster" {
     talos_version            = string
     install_disk             = string
     storage_disk             = string
-    storage_disk_1           = string
-    storage_disk_2           = string
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string
@@ -54,13 +53,12 @@ variable "nodes" {
     ip               = string
     cores            = number
     memory           = number
-    datastore_id     = string
+    datastore_id     = optional(string, "local-lvm")
     storage_id       = string
     size             = number
     storage_size     = number
   }))
 }
-
 variable "dns_servers" {
   description = "DNS servers for the nodes"
   type = object({
@@ -72,11 +70,9 @@ variable "dns_servers" {
     secondary = "8.8.8.8"
   }
 }
-
 variable "cilium_config" {
   description = "Configuration options for bootstrapping cilium"
   type = object({
-    namespace                  = string
     node_network               = string
     kube_version               = string
     cilium_version             = string
@@ -93,7 +89,6 @@ variable "cilium_config" {
     load_balancer_stop         = number
   })
   default = {
-    namespace                  = "networking"
     node_network               = "10.3.3.0/24"
     kube_version               = "1.33.0"
     cilium_version             = "1.17.6"
@@ -108,15 +103,5 @@ variable "cilium_config" {
     load_balancer_ip           = "10.3.3.2"
     load_balancer_start        = 10
     load_balancer_stop         = 20
-  }
-}
-
-variable "worker_disk_count" {
-  description = "Number of additional storage disks to attach to worker nodes (1-10)"
-  type        = number
-  default     = 2
-  validation {
-    condition     = var.worker_disk_count >= 1 && var.worker_disk_count <= 10
-    error_message = "Worker storage disk count must be between 1 and 10"
   }
 }
