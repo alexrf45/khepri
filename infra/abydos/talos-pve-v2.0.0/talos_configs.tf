@@ -12,16 +12,39 @@ locals {
       ]
     }
   }
+  storage_encryption_config = var.encryption.enabled ? (
+    var.encryption.tpm_based ? {
+      # TPM-based encryption (recommended)
+      provider = "luks2"
+      keys = [
+        {
+          slot = 0
+          tpm  = {}
+        }
+      ]
+      } : {
+      # Static key encryption (fallback)
+      provider = "luks2"
+      keys = [
+        {
+          slot = 0
+          static = {
+            passphrase = var.encryption.static_key != "" ? var.encryption.static_key : random_password.encryption_key[0].result
+          }
+        }
+      ]
+    }
+  ) : null
 
   #Tailscale extension configuration
-  tailscale_config = {
-    apiVersion = "v1alpha1"
-    kind       = "ExtensionServiceConfig"
-    name       = "tailscale"
-    environment = [
-      "TS_AUTHKEY=${var.cluster.tailscale_auth}"
-    ]
-  }
+  # tailscale_config = {
+  #   apiVersion = "v1alpha1"
+  #   kind       = "ExtensionServiceConfig"
+  #   name       = "tailscale"
+  #   environment = [
+  #     "TS_AUTHKEY=${var.cluster.tailscale_auth}"
+  #   ]
+  # }
 
   # Control plane machine configuration
   controlplane_machine_config = {
@@ -32,7 +55,9 @@ locals {
       kernel = {
         modules = [
           { name = "nvme_tcp" },
-          { name = "vfio_pci" }
+          { name = "vfio_pci" },
+          { name = "dm_crypt" },
+          { name = "dm_mod" }
         ]
       }
       files = [
@@ -68,13 +93,29 @@ locals {
           }
         ]
       }
+      systemDiskEncryption = var.encryption.enabled && var.encryption.tpm_based ? {
+        ephemeral = {
+          provider = "luks2"
+          keys = [
+            {
+              slot = 0
+              tpm  = {}
+            }
+          ]
+        }
+      } : null
       disks = [
         {
           device = "/dev/vdb"
           partitions = [
-            {
-              mountpoint = var.cluster.storage_disk
-            }
+            merge(
+              {
+                mountpoint = var.cluster.storage_disk
+              },
+              var.encryption.enabled ? {
+                encryption = local.storage_encryption_config
+              } : {}
+            )
           ]
         }
       ]
@@ -101,7 +142,9 @@ locals {
       kernel = {
         modules = [
           { name = "nvme_tcp" },
-          { name = "vfio_pci" }
+          { name = "vfio_pci" },
+          { name = "dm_crypt" },
+          { name = "dm_mod" }
         ]
       }
       files = [
@@ -147,24 +190,47 @@ locals {
           }
         ]
       }
+      systemDiskEncryption = var.encryption.enabled && var.encryption.tpm_based ? {
+        ephemeral = {
+          provider = "luks2"
+          keys = [
+            {
+              slot = 0
+              tpm  = {}
+            }
+          ]
+        }
+      } : null
+
       disks = [
         {
           device = "/dev/vdb"
           partitions = [
-            {
-              mountpoint = var.cluster.storage_disk_1
-            }
+            merge(
+              {
+                mountpoint = var.cluster.storage_disk_1
+              },
+              var.encryption.enabled ? {
+                encryption = local.storage_encryption_config
+              } : {}
+            )
           ]
         },
         {
           device = "/dev/vdc"
           partitions = [
-            {
-              mountpoint = var.cluster.storage_disk_2
-            }
+            merge(
+              {
+                mountpoint = var.cluster.storage_disk_2
+              },
+              var.encryption.enabled ? {
+                encryption = local.storage_encryption_config
+              } : {}
+            )
           ]
         }
       ]
+
       install = {
         disk  = var.cluster.install_disk
         image = talos_image_factory_schematic.worker.id
