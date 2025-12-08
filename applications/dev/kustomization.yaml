@@ -4,3 +4,4 @@ resources:
   - ./external-dns
   - ./cert-manager
   - ./dev-app-gateway
+  - ./it-tools
