@@ -11,5 +11,5 @@ resources:
 #  - freenas-csi
  # - redis-operator
   - ../base/local-path
-#  - longhorn
+  - longhorn
   #  - ../base/csi-driver-smb
