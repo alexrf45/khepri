@@ -19,6 +19,20 @@ variable "worker_disk_count" {
     error_message = "Worker storage disk count must be between 1 and 10"
   }
 }
+variable "encryption" {
+  description = "Disk encryption configuration"
+  type = object({
+    enabled    = bool
+    tpm_based  = bool
+    static_key = optional(string, "")
+  })
+  default = {
+    enabled    = false
+    tpm_based  = true
+    static_key = ""
+  }
+  sensitive = true
+}
 
 variable "pve_hosts" {
   description = "Proxmox VE configuration options"
@@ -45,7 +59,7 @@ variable "cluster" {
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string
-    tailscale_auth           = string
+    #    tailscale_auth           = string
   })
   validation {
     condition     = can(regex("^[a-zA-Z0-9]+$", var.cluster.name)) && length(var.cluster.name) >= 4
