@@ -49,7 +49,7 @@ spec:
           password: ${TRUENAS_PASSWORD}
           apiKey: ${TRUENAS_API_KEY}
           allowInsecure: ${ALLOW_INSECURE}
-          apiVersion: 2
+          apiVersion: 1
         sshConnection:
           host: ${TRUENAS_HOST}
           port: 22
