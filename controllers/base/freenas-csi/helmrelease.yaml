@@ -86,19 +86,6 @@ spec:
             value: nsenter
           - name: ISCSIADM_HOST_PATH
             value: /usr/local/sbin/iscsiadm
-        extraVolumeMounts:
-          - name: iscsi-dir
-            mountPath: /etc/iscsi
-            mountPropagation: Bidirectional
-          - name: iscsi-info
-            mountPath: /var/run/iscsi-info
-        extraVolumes:
-          - name: iscsi-dir
-            hostPath:
-              path: /var/etc/iscsi
-              type: DirectoryOrCreate
-          - name: iscsi-info
-            hostPath:
-              path: /var/run/iscsi-info
-              type: DirectoryOrCreate
+        iscsiDirHostPath: /var/etc/iscsi
+        iscsiDirHostPathType: DirectoryOrCreate
 
