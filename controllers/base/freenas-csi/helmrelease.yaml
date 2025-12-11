@@ -86,5 +86,4 @@ spec:
           - name: ISCSIADM_HOST_PATH
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /var/lib/iscsi
-        iscsiDirHostPathType: ''
       hostPID: true
