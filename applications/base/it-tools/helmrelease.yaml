@@ -76,8 +76,8 @@ spec:
               - it-tools
     persistence:
       config:
-        enabled: false
-        storageClass: local-path
+        enabled: true
+        storageClass: iscsi
         retain: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
