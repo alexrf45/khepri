@@ -1,0 +1,66 @@
+csiDriver:
+    name: "freenas-iscsi"
+    csiProxy:
+      enabled: false
+    storageClasses:
+      - name: ${STORAGE_CLASS_NAME}
+        defaultClass: true
+        reclaimPolicy: Delete
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+          detachedVolumesFromSnapshots: "false"
+
+    driver:
+      config:
+        driver: freenas-iscsi
+        instance_id: null
+        httpConnection:
+          protocol: ${TRUENAS_PROTOCOL}
+          host: ${TRUENAS_HOST}
+          port: ${TRUENAS_PORT}
+          #username: ${TRUENAS_USERNAME}
+          #password: ${TRUENAS_PASSWORD}
+          apiKey: ${TRUENAS_API_KEY}
+          allowInsecure: ${ALLOW_INSECURE}
+          apiVersion: 2
+        sshConnection:
+          host: ${TRUENAS_HOST}
+          port: 22
+          username: ${TRUENAS_USERNAME}
+          password: ${TRUENAS_PASSWORD}
+        zfs:
+          datasetParentName: ${DATASET_PARENT}
+          detachedSnapshotsDatasetParentName: ${DATASET_SNAPSHOTS}
+          zvolCompression: "on"
+          zvolDedup: null
+          zvolEnableReservation: false
+          zvolBlocksize: null
+        iscsi:
+          targetPortal: ${TRUENAS_ISCSI_PORTAL}
+          interface: null
+          namePrefix: csi-
+          nameSuffix: -k8s
+          targetGroups:
+            - targetGroupPortalGroup: 1
+              targetGroupInitiatorGroup: 7
+              targetGroupAuthType: None
+              targetGroupAuthGroup: null
+          extentInsecureTpc: true
+          extentXenCompat: false
+          extentDisablePhysicalBlocksize: true
+          extentBlocksize: 512
+          extentRpm: SSD
+          extentAvailThreshold: 0
+    node:
+      hostPID: true
+      driver:
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /var/etc/iscsi
+        iscsiDirHostPathType: DirectoryOrCreate
+
