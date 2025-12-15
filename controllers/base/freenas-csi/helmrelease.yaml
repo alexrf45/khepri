@@ -50,11 +50,11 @@ spec:
           apiKey: ${TRUENAS_API_KEY}
           allowInsecure: ${ALLOW_INSECURE}
           apiVersion: 2
-        # sshConnection:
-        #   host: ${TRUENAS_HOST}
-        #   port: 22
-        #   username: ${TRUENAS_USERNAME}
-        #   password: ${TRUENAS_PASSWORD}
+        sshConnection:
+          host: ${TRUENAS_HOST}
+          port: 22
+          username: ${TRUENAS_USERNAME}
+          password: ${TRUENAS_PASSWORD}
         zfs:
           datasetParentName: ${DATASET_PARENT}
           detachedSnapshotsDatasetParentName: ${DATASET_SNAPSHOTS}
