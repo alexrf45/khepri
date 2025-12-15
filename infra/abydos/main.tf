@@ -1,4 +1,4 @@
-module "memphis" {
+module "abydos" {
   source = "./talos-pve-v2.0.0"
   #source        = "git@github.com:alexrf45/lab.git//talos-pve-v2.0.0"
   environment       = var.environment

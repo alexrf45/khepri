@@ -1,14 +1,14 @@
 output "client_configuration" {
-  value     = module.memphis.client_configuration
+  value     = module.abydos.client_configuration
   sensitive = true
 }
 
 output "kubeconfig" {
-  value     = module.memphis.kubeconfig
+  value     = module.abydos.kubeconfig
   sensitive = true
 }
 
 output "kubeclientconfig" {
-  value     = module.memphis.kubeclientconfig
+  value     = module.abydos.kubeclientconfig
   sensitive = true
 }
