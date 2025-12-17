@@ -5,7 +5,7 @@ resources:
   - external-secrets
   - ../base/onepassword-connect
   - ../base/tailscale
-  - ../base/kyverno
+  - kyverno
   - ../base/cloudnativepg
   - ../base/renovate
   - freenas-csi
