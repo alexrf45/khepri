@@ -26,9 +26,9 @@ spec:
         name: tailscale-operator
   targetNamespace: networking
   values:
-    oauth: {}
-     # clientId: ""
-     # clientSecret: ""
+    oauth:
+      clientId: ""
+      clientSecret: ""
 
     installCRDs: true
 
