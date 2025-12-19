@@ -39,7 +39,7 @@ spec:
 
     driver:
       config:
-        driver: freenas-iscsi
+        driver: freenas-api-scsi
         instance_id: null
         httpConnection:
           protocol: ${TRUENAS_PROTOCOL}
