@@ -23,6 +23,11 @@ spec:
       retries: 3
   targetNamespace: storage
   values:
+    controller:
+      driver:
+        image:
+          registry: docker.io/democraticcsi/democratic-csi
+          tag: next
     csiDriver:
       name: "freenas-api-iscsi"
     csiProxy:
