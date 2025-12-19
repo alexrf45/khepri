@@ -25,6 +25,7 @@ spec:
   values:
     csiDriver:
       name: "freenas-api-iscsi"
+      version: "next"
     csiProxy:
       enabled: false
     storageClasses:
