@@ -38,11 +38,6 @@ spec:
           detachedVolumesFromSnapshots: "false"
 
     driver:
-      logLevel: debug
-      image:
-        registry: docker.io/democraticcsi/democratic-csi
-        tag: next
-        pullPolicy: Always
       config:
         driver: freenas-api-iscsi
         instance_id: null
@@ -86,6 +81,10 @@ spec:
     node:
       hostPID: true
       driver:
+        image:
+        registry: docker.io/democraticcsi/democratic-csi
+        tag: next
+        pullPolicy: Always
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
