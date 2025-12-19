@@ -82,9 +82,9 @@ spec:
       hostPID: true
       driver:
         image:
-        registry: docker.io/democraticcsi/democratic-csi
-        tag: next
-        pullPolicy: Always
+          registry: docker.io/democraticcsi/democratic-csi
+          tag: next
+          pullPolicy: Always
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
