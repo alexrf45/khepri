@@ -40,8 +40,8 @@ spec:
     driver:
       logLevel: debug
       image:
-        registry: docker.io/democraticcsi/democratic-csi
-        tag: next
+        registry: ghcr.io/democratic-csi/democratic-csi
+        tag: v1.9.3
         pullPolicy: Always
       config:
         driver: freenas-api-iscsi
