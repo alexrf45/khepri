@@ -25,7 +25,6 @@ spec:
   values:
     csiDriver:
       name: "freenas-api-iscsi"
-      version: "next"
     csiProxy:
       enabled: false
     storageClasses:
@@ -39,6 +38,11 @@ spec:
           detachedVolumesFromSnapshots: "false"
 
     driver:
+      logLevel: debug
+      image:
+        registry: docker.io/democraticcsi/democratic-csi
+        tag: "next"
+        pullPolicy: Always
       config:
         driver: freenas-api-iscsi
         instance_id: null
