@@ -39,14 +39,14 @@ spec:
 
     driver:
       config:
-        driver: freenas-api-scsi
+        driver: freenas-scsi
         instance_id: null
         httpConnection:
           protocol: ${TRUENAS_PROTOCOL}
           host: ${TRUENAS_HOST}
           port: ${TRUENAS_PORT}
-          username: ${TRUENAS_USERNAME}
-          password: ${TRUENAS_PASSWORD}
+          #username: ${TRUENAS_USERNAME}
+          #password: ${TRUENAS_PASSWORD}
           apiKey: ${TRUENAS_API_KEY}
           allowInsecure: ${ALLOW_INSECURE}
           apiVersion: 2
