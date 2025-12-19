@@ -24,7 +24,7 @@ spec:
   targetNamespace: storage
   values:
     csiDriver:
-      name: "freenas-iscsi"
+      name: "freenas-api-iscsi"
     csiProxy:
       enabled: false
     storageClasses:
@@ -39,7 +39,7 @@ spec:
 
     driver:
       config:
-        driver: freenas-scsi
+        driver: freenas-api-iscsi
         instance_id: null
         httpConnection:
           protocol: ${TRUENAS_PROTOCOL}
