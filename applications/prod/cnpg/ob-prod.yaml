@@ -17,7 +17,7 @@ spec:
             wal:
                 compression: gzip
             data:
-                compression: ENC[AES256_GCM,data:4QOGjA==,iv:aVQexZRUgHtCsrgVvHM9rF2dFnKuUc3SBK2CrF6sLuU=,tag:lX5B+dKq+jV6vDNna4rs/Q==,type:str]
+                compression: gzip
 sops:
     age:
         - recipient: age1helqcqsh9464r8chnwc2fzj8uv7vr5ntnsft0tn45v2xtz0hpfwq98cmsg
@@ -31,5 +31,5 @@ sops:
             -----END AGE ENCRYPTED FILE-----
     lastmodified: "2025-12-20T18:37:55Z"
     mac: ENC[AES256_GCM,data:LWx8OnpdlL1MOWDDemjzaluKozjUYPhV7dLxPuA30EwRMDtwbVfT7SgKsWoRXLH9T6BC/4U2/k2/Lemc+U/YiyvdkC/xX5x45Llu5eEiqkQnqEmtXY5lmCnzRHhgpPSMZ5/32Ducl/mxWy3I0KAgmjEdqj+IHScqYJFrXYBz4l0=,iv:9Ox4qgpIv+pTx8476YZZLgcbdCkeq15efPsa5KGvHfY=,tag:pA2/zNAHqMGaFjaHms/9iA==,type:str]
-    encrypted_regex: ^(data|destinationPath)$
+    encrypted_regex: ^(destinationPath)$
     version: 3.10.2
