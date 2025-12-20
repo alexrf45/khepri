@@ -22,14 +22,14 @@ deploy() {
 
 flux-deploy() {
 
-  cat ~/.local/flux-staging.agekey | kubectl create secret generic sops-age \
-    --namespace=flux-system \
-    --from-file=flux-staging.agekey=/dev/stdin
-  #
+  # cat ~/.local/flux-staging.agekey | kubectl create secret generic sops-age \
+  #   --namespace=flux-system \
+  #   --from-file=flux-staging.agekey=/dev/stdin
+  # #
   flux bootstrap git \
     --cluster-domain=cluster.local \
-    --url=ssh://git@github.com/alexrf45/home-ops.git \
-    --path=clusters/thebes \
+    --url=ssh://git@github.com/alexrf45/khepri.git \
+    --path=clusters/horus \
     --private-key-file=/home/fr3d/.ssh/fr3d \
     --branch main \
     --force
