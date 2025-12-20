@@ -17,7 +17,7 @@ spec:
     name: wallabag-prod-db-creds
   storage:
     size: 20Gi
-    storageClass: local-path
+    storageClass: iscsi
   walStorage:
     size: 5Gi
   bootstrap:
