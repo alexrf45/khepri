@@ -34,7 +34,7 @@ spec:
   - name: barman-cloud.cloudnative-pg.io
     isWALArchiver: true
     parameters:
-      barmanObjectName: wallabag-prod-cluster-august
+      barmanObjectName: wallabag-prod-cluster-backup
   externalClusters:
   - name: wallabag-prod-cluster
     plugin:
