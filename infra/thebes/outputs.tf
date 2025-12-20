@@ -1,14 +1,14 @@
 output "client_configuration" {
-  value     = module.testing.client_configuration
+  value     = module.thebes.client_configuration
   sensitive = true
 }
 
 output "kubeconfig" {
-  value     = module.testing.kubeconfig
+  value     = module.thebes.kubeconfig
   sensitive = true
 }
 
 output "kubeclientconfig" {
-  value     = module.testing.kubeclientconfig
+  value     = module.thebes.kubeclientconfig
   sensitive = true
 }

@@ -1,4 +1,4 @@
-variable "env" {
+variable "environment" {
   description = "operating environment of cluster"
   type        = string
   validation {
@@ -7,15 +7,38 @@ variable "env" {
       var.environment == "dev",
       var.environment == "prod",
     ])
-    error_message = "Please use one of the approved environement names: dev, prod, test "
+    error_message = "Please use one of the approved environement names: test, dev, prod "
   }
+}
+variable "worker_disk_count" {
+  description = "Number of additional storage disks to attach to worker nodes (1-10)"
+  type        = number
+  default     = 2
+  validation {
+    condition     = var.worker_disk_count >= 1 && var.worker_disk_count <= 10
+    error_message = "Worker storage disk count must be between 1 and 10"
+  }
+}
+variable "encryption" {
+  description = "Disk encryption configuration"
+  type = object({
+    enabled    = bool
+    tpm_based  = bool
+    static_key = optional(string, "")
+  })
+  default = {
+    enabled    = false
+    tpm_based  = true
+    static_key = ""
+  }
+  sensitive = true
 }
 
 variable "pve_hosts" {
   description = "Proxmox VE configuration options"
   type = object({
     hosts         = list(string)
-    pve_endpoint  = string
+    endpoint      = string
     iso_datastore = string
     gateway       = string
     password      = string
@@ -31,10 +54,12 @@ variable "cluster" {
     talos_version            = string
     install_disk             = string
     storage_disk             = string
+    storage_disk_1           = string
+    storage_disk_2           = string
     control_plane_extensions = list(string)
     worker_extensions        = list(string)
     platform                 = string
-    tailscale_auth           = string
+    #    tailscale_auth           = string
   })
   validation {
     condition     = can(regex("^[a-zA-Z0-9]+$", var.cluster.name)) && length(var.cluster.name) >= 4
@@ -91,8 +116,8 @@ variable "cilium_config" {
   default = {
     namespace                  = "cilium"
     node_network               = "10.3.3.0/24"
-    kube_version               = "1.34.0"
-    cilium_version             = "1.18.2"
+    kube_version               = "1.33.0"
+    cilium_version             = "1.17.6"
     hubble_enabled             = false
     hubble_ui_enabled          = false
     relay_enabled              = false

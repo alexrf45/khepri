@@ -9,14 +9,15 @@ deploy() {
 
   terraform apply --auto-approve
 
-  terraform output -raw kubeconfig >"$HOME/.kube/environments/testing"
+  terraform output -raw kubeconfig >"$HOME/.kube/environments/prod"
 
-  terraform output -raw client_configuration >"$HOME/.talos/testing"
+  terraform output -raw client_configuration >"$HOME/.talos/prod"
 
-  cp ~/.kube/config ~/.kube/config_bk && KUBECONFIG=~/.kube/environments/dev:~/.kube/environments/prod:~/.kube/environments/testing kubectl config view --flatten >~/.kube/config_tmp && mv ~/.kube/config_tmp ~/.kube/config
+  cp ~/.kube/config ~/.kube/config_bk && KUBECONFIG=~/.kube/environments/dev:~/.kube/environments/prod:~/.kube/environments/test kubectl config view --flatten >~/.kube/config_tmp && mv ~/.kube/config_tmp ~/.kube/config
 
-  #kubectl label nodes --selector=node-role.kubernetes.io/worker node=worker
-  #kubectl label node dev-node-1 dev-node-2 dev-node-3 node-role.kubernetes.io/worker=true
+  kubectl label nodes -l '!node-role.kubernetes.io/control-plane' node-role.kubernetes.io/worker=true
+
+  kubectl label nodes --selector=node-role.kubernetes.io/worker node=worker
 }
 
 flux-deploy() {
