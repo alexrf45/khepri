@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - app-secrets.yaml
   - app.yaml
+  - database.yaml
+  - objectstore.yaml
