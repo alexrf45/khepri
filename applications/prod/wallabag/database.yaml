@@ -23,7 +23,7 @@ spec:
   bootstrap:
     recovery:
       source: wallabag-prod-cluster
-      database: wallabag`
+      database: wallabag
       owner: wallabag
       secret:
         name: wallabag-prod-db-creds
