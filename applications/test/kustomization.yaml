@@ -4,4 +4,4 @@ resources:
   - ./external-dns
   - ./cert-manager
   - ./test-app-gateway
-  - ./it-tools
+  #- ./it-tools
