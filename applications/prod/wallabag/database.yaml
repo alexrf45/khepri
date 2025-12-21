@@ -29,7 +29,7 @@ spec:
       secret:
         name: wallabag-prod-db-creds
       recoveryTarget:
-        backupID: ""
+        backupID: "latest"
         targetTLI: "latest"
         targetImmediate: true
   plugins:
