@@ -28,10 +28,10 @@ spec:
       owner: wallabag
       secret:
         name: wallabag-prod-db-creds
-      recoveryTarget:
-        backupID: "latest"
-        targetTLI: "latest"
-        targetImmediate: true
+      #recoveryTarget:
+       # backupID: "latest"
+        #targetTLI: "latest"
+        #targetImmediate: true
   plugins:
   - name: barman-cloud.cloudnative-pg.io
     isWALArchiver: true
