@@ -20,6 +20,7 @@ spec:
     storageClass: iscsi
   walStorage:
     size: 5Gi
+    storageClass: iscsi
   bootstrap:
     recovery:
       source: wallabag-prod-cluster
@@ -28,7 +29,7 @@ spec:
       secret:
         name: wallabag-prod-db-creds
       recoveryTarget:
-        backupID: "20250818T190002"
+        backupID: "20250814T140002"
         targetImmediate: true
   plugins:
   - name: barman-cloud.cloudnative-pg.io
@@ -50,7 +51,7 @@ metadata:
 spec:
   schedule: "0 0 * * *"
   cluster:
-    name: wallabag-prod-cluster
+    name: wallabag-prod-cluster-2025
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
