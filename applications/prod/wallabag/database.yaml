@@ -30,6 +30,7 @@ spec:
         name: wallabag-prod-db-creds
       recoveryTarget:
         backupID: ""
+        targetTLI: "latest"
         targetImmediate: true
   plugins:
   - name: barman-cloud.cloudnative-pg.io
