@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: wallabag-prod-cluster-2025
+  name: wallabag-prod-cluster
   namespace: wallabag
   labels:
     app: "wallabag"
