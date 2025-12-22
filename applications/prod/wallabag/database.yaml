@@ -48,7 +48,7 @@ metadata:
 spec:
   schedule: "0 0 * * *"
   cluster:
-    name: wallabag-prod-cluster-2025
+    name: wallabag-prod-cluster
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
