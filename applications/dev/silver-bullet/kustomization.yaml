@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - secrets.sop.yaml
+  - secrets.sops.yaml
   - configmap.sops.yaml
   - deployment.yaml
   - service.yaml
