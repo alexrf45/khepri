@@ -1,6 +1,4 @@
 ---
-# Gateway for SilverBullet with TLS termination
-# Uses Cilium's Gateway API implementation
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -9,9 +7,6 @@ metadata:
   labels:
     app.kubernetes.io/name: silverbullet
     app.kubernetes.io/component: gateway
-  annotations:
-    # Cilium specific annotations for LoadBalancer IP
-    io.cilium/lb-ipam-ips: "${SILVERBULLET_LB_IP}"
 spec:
   gatewayClassName: cilium  # Cilium's Gateway class
   listeners:
