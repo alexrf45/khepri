@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./applications/dev/silverbullet
+  path: ./applications/dev/silver-bullet
   prune: true
   wait: true
   decryption:
