@@ -13,6 +13,7 @@ spec:
     name: flux-system
     namespace: flux-system
   path: ./applications/dev/silver-bullet
+  targetNamespace: silverbullet
   prune: true
   wait: true
   decryption:
