@@ -23,6 +23,6 @@ spec:
     chapAuthDiscovery: false
     chapAuthSession: false
   claimRef:
-    name: silverbullet-dev
+    name: dev-silverbullet-pvc
     namespace: silverbullet
 ---
