@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dev-silverbullet-pv-iscsi
+  labels:
+    app.kubernetes.io/name: silverbullet
+    app.kubernetes.io/component: storage
+    type: iscsi
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "iscsi"
+  iscsi:
+    targetPortal: "192.168.20.106:3260"  # TrueNAS iSCSI portal
+    iqn: "iqn.2005-10.org.freenas.ctl:silverbullet"  # Target IQN
+    lun: 0
+    fsType: ext4
+    readOnly: false
+    chapAuthDiscovery: false
+    chapAuthSession: false
+  claimRef:
+    name: silverbullet-dev
+    namespace: silverbullet
+---
