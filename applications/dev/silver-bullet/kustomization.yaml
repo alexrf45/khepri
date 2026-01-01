@@ -5,7 +5,7 @@ resources:
   - configmap.sops.yaml
   - deployment.yaml
   - service.yaml
-  - pv.yaml
+  #- pv.yaml
   - pvc.yaml
   - ingress.yaml
  # - gateway.yaml
