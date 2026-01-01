@@ -7,8 +7,6 @@ metadata:
   labels:
     app.kubernetes.io/name: silverbullet
     app.kubernetes.io/component: tailscale-ingress
-  annotations:
-    tailscale.com/tags: "tag:k8s,tag:silverbullet"
 spec:
   ingressClassName: tailscale
   tls:
