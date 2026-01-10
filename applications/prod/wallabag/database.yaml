@@ -9,6 +9,7 @@ metadata:
     node: "worker"
     env: "prod"
 spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
   postgresql:
     pg_hba:
       - hostssl wallabag wallabag 10.43.0.0/16 scram-sha-256
