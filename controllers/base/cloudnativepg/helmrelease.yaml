@@ -7,6 +7,8 @@ metadata:
 spec:
   upgrade:
     crds: CreateReplace
+  install:
+    crds: CreateReplace
   interval: 30m
   chart:
     spec:
