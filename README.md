@@ -5,7 +5,7 @@
 ## Home-Ops
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/alexrf45/khepri) [![Static Badge](https://img.shields.io/badge/fr3d.dev-blue?style=plastic&link=https%3A%2F%2Ffr3d.dev)](https://blog.fr3d.dev)
-![Static Badge](https://img.shields.io/badge/talos-v1.11.5-orange?style=plastic&logo=Talos&logoColor=%23FF7300) ![Static Badge](https://img.shields.io/badge/k8s-v1.34.0-blue?style=plastic&logo=Kubernetes&logoColor=%23326CE5&logoSize=auto) ![Static Badge](https://img.shields.io/badge/flux-v2.6.4-blue?style=plastic&logo=flux&logoSize=auto&link=https%3A%2F%2Fblog.fr3d.dev) ![Static Badge](https://img.shields.io/badge/terraform-v1.13.3-purple?style=plastic&logo=terraform&color=%237B42BC) ![Static Badge](https://img.shields.io/badge/proxmox-v9.1.1-orange?style=plastic&logo=proxmox&logoSize=auto&link=https%3A%2F%2Fblog.fr3d.dev)
+![Static Badge](https://img.shields.io/badge/talos-v1.11.5-orange?style=plastic&logo=Talos&logoColor=%23FF7300) ![Static Badge](https://img.shields.io/badge/k8s-v1.34.0-blue?style=plastic&logo=Kubernetes&logoColor=%23326CE5&logoSize=auto) ![Static Badge](https://img.shields.io/badge/flux-v2.6.4-blue?style=plastic&logo=flux&logoSize=auto&link=https%3A%2F%2Fblog.fr3d.dev) ![Static Badge](https://img.shields.io/badge/terraform-v1.13.3-purple?style=plastic&logo=terraform&color=%237B42BC) ![Static Badge](https://img.shields.io/badge/proxmox-v9.1.4-orange?style=plastic&logo=proxmox&logoSize=auto&link=https%3A%2F%2Fblog.fr3d.dev)
 
 **_A living, breathing home lab that champions a love of learning and discovery_**
 
@@ -15,9 +15,9 @@
 
 ## Applications
 
-| Application                                                                                      | Status | Environment | URL                |
-| ------------------------------------------------------------------------------------------------ | ------ | ----------- | ------------------ |
-| ![Wallabag](https://img.shields.io/badge/Wallabag-5a524c?logo=wallabag&logoColor=white)          | Active | Prod        | Read-later service |
+| Application                                                                                      | Status   | Environment | URL                |
+| ------------------------------------------------------------------------------------------------ | -------- | ----------- | ------------------ |
+| ![Wallabag](https://img.shields.io/badge/Wallabag-5a524c?logo=wallabag&logoColor=white)          | Active   | Prod        | Read-later service |
 | ![Homepage](https://img.shields.io/badge/Homepage-a9b665?logo=homepage&logoColor=white)          | Inactive | Dev, Prod   | Application Portal |
 | ![IT-Tools](https://img.shields.io/badge/IT--Tools-00D8FF?logo=visualstudiocode&logoColor=white) | Inactive | Dev, Prod   | Useful tools       |
 
