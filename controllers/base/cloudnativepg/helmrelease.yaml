@@ -5,6 +5,8 @@ metadata:
   name: cnpg
   namespace: flux-system
 spec:
+  upgrade:
+    crds: CreateReplace
   interval: 30m
   chart:
     spec:
