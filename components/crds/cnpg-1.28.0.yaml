@@ -18337,7 +18337,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cnpg-manager
-  namespace: cnpg-system
+  namespace: database
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -18725,7 +18725,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnpg-manager
-  namespace: cnpg-system
+  namespace: database
 ---
 apiVersion: v1
 data:
@@ -19214,13 +19214,13 @@ metadata:
   labels:
     cnpg.io/reload: ""
   name: cnpg-default-monitoring
-  namespace: cnpg-system
+  namespace: database
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: cnpg-webhook-service
-  namespace: cnpg-system
+  namespace: database
 spec:
   ports:
   - port: 443
@@ -19234,7 +19234,7 @@ metadata:
   labels:
     app.kubernetes.io/name: cloudnative-pg
   name: cnpg-controller-manager
-  namespace: cnpg-system
+  namespace: database
 spec:
   replicas: 1
   selector:
@@ -19338,7 +19338,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /mutate-postgresql-cnpg-io-v1-backup
   failurePolicy: Fail
   name: mbackup.cnpg.io
@@ -19358,7 +19358,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /mutate-postgresql-cnpg-io-v1-cluster
   failurePolicy: Fail
   name: mcluster.cnpg.io
@@ -19378,7 +19378,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /mutate-postgresql-cnpg-io-v1-database
   failurePolicy: Fail
   name: mdatabase.cnpg.io
@@ -19398,7 +19398,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /mutate-postgresql-cnpg-io-v1-scheduledbackup
   failurePolicy: Fail
   name: mscheduledbackup.cnpg.io
@@ -19424,7 +19424,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /validate-postgresql-cnpg-io-v1-backup
   failurePolicy: Fail
   name: vbackup.cnpg.io
@@ -19444,7 +19444,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /validate-postgresql-cnpg-io-v1-cluster
   failurePolicy: Fail
   name: vcluster.cnpg.io
@@ -19464,7 +19464,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /validate-postgresql-cnpg-io-v1-database
   failurePolicy: Fail
   name: vdatabase.cnpg.io
@@ -19484,7 +19484,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /validate-postgresql-cnpg-io-v1-pooler
   failurePolicy: Fail
   name: vpooler.cnpg.io
@@ -19504,7 +19504,7 @@ webhooks:
   clientConfig:
     service:
       name: cnpg-webhook-service
-      namespace: cnpg-system
+      namespace: database
       path: /validate-postgresql-cnpg-io-v1-scheduledbackup
   failurePolicy: Fail
   name: vscheduledbackup.cnpg.io
