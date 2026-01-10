@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-worker-role-label
+spec:
+  rules:
+    - name: add-worker-label
+      match:
+        any:
+          - resources:
+              kinds:
+                - Node
+              selector:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              node-role.kubernetes.io/worker: "true"
