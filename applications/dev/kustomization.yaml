@@ -7,3 +7,4 @@ resources:
   - ./dev-app-gateway
   - ./it-tools
   - ./silver-bullet
+  - ./wallabag

@@ -1,0 +1,128 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallabag
+  namespace: wallabag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wallabag
+  template:
+    metadata:
+      labels:
+        app: wallabag
+        node: worker
+      annotations:
+    spec:
+      containers:
+      - name: wallabag-web
+        image: wallabag/wallabag:2.6.14
+        resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+        ports:
+          - containerPort: 80
+        env:
+        - name: SYMFONY__ENV__DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: username
+        - name: SYMFONY__ENV__DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: password
+        - name: SYMFONY__ENV__DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: database
+        - name: SYMFONY__ENV__DATABASE_PORT
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: port
+        - name: SYMFONY__ENV__DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: server
+        - name: SYMFONY__ENV__DATABASE_DRIVER
+          value: "pdo_pgsql"
+        - name: SYMFONY__ENV__FOSUSER_REGISTRATION
+          value: "false"
+        - name: POPULATE_DATABASE
+          value: "true"
+        - name: PHP_MEMORY_LIMIT
+          value: 500M
+        - name: SYMFONY__ENV__DOMAIN_NAME
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: url
+        - name: SYMFONY__ENV__SECRET
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: app_secret
+        - name: SYMFONY__ENV__REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: redis_host
+        - name: SYMFONY__ENV__REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wallabag-dev-creds
+              key: redis_password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wallabag
+  namespace: wallabag
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
+  selector:
+    app: wallabag
+    node: worker
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wallabag
+  namespace: wallabag
+  labels:
+    app.kubernetes.io/name: wallabag
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+  - host: dev-wallabag
+    http:
+      paths:
+      - backend:
+          service:
+            name: wallabag
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - dev-wallabag
+    secretName: dev-wallabag-tls
